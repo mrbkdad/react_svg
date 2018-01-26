@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Scatter from './Scatter';
 import Circle from './Circle';
 import Rect from './Rect';
-import './Svg.css';
-
+import Axis from './Axis';
+import { Scale } from './Scale';
+//import './Svg.css';
 
 class SVG extends Component {
   constructor(props){
@@ -25,9 +25,30 @@ class SVG extends Component {
       {r:30,cx:250,cy:250}
     ]
     let rectData = [
-      {x:200,y:50,width:50,height:50},
-      {x:300,y:50,width:50,height:50}
+      {x:150,y:50,width:50,height:50},
+      {x:200,y:50,width:50,height:50}
     ]
+
+    let xScale = new Scale([0,300],[30,this.props.width-30]);
+    let yScale = new Scale([0,300],[this.props.height-30,30]);
+
+    circleData = circleData.map(data=>{
+      return {
+        r:data.r,
+        cx:xScale.scale(data.cx),
+        cy:yScale.scale(data.cy)
+      }
+    });
+
+    rectData = rectData.map(data=>{
+      return {
+        x:xScale.scale(data.x),
+        y:yScale.scale(data.y),
+        width:data.width,
+        height:data.height
+      }
+    });
+
     return (
       <svg
         id={this.state.id}
@@ -36,6 +57,8 @@ class SVG extends Component {
       >
       <Circle data={circleData} />
       <Rect data={rectData} />
+      <Axis type="bottom" scale={xScale} />
+      <Axis type="left" scale={yScale} />
       </svg>
     );
   }

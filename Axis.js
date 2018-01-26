@@ -6,47 +6,40 @@ export default class Axis extends Component {
     this.state={
       id:this.props.id,
       type:this.props.type,
-      data:this.props.data
+      scale:this.props.scale
     };
-    console.log(this.state);
+    //console.log(this.state.scale.ticks(this.state.type));
   }
   //Axis data {x,y,text}
   render() {
+    let tick_data = this.state.scale.ticks(this.state.type);
     let ticks = [];
-    this.state.data.forEach(line=>{
-      var tick_position = 'translate('+line.x+','+line.y+')';
+    tick_data.forEach((tick,i)=>{
       ticks.push(
-        <g class='tick'
-          transform={tick_position}
-        >
-          <line y2='6' x2='0' />
-          <text dy='.71em' y='9' x='0'
-            class='axis-text'>
-            {line.text}
+        <g id={'tick_'+i} key={'tick_'+i}>
+          <line id={'line_'+tick.tick} key={'line_'+tick.tick}
+            x1={tick.line.x1} y1={tick.line.y1}
+            x2={tick.line.x2} y2={tick.line.y2} stroke='black'/>
+          <text id={'text_'+tick.tick} key={'text_'+tick.tick}
+            x={tick.text.x} y={tick.text.y}
+            textAnchor={tick.text.textAnchor}
+            fontSize="10" forntFamily="sans-serif">
+            {tick.tick}
           </text>
         </g>
       );
     });
-    console.log(ticks);
+    //console.log(ticks);
     return (
-      <g
-        class={this.state.type}
-        transform={
-          this.state.type === "x"?
-          "translate(0,"+ (this.props.height-this.props.pad) +")"
-          :"translate("+ (this.props.width-this.props.pad) +",0)"
-        }
-      >{ticks}
+      <g id={'axis_' + this.state.type}>
+        {ticks}
       </g>
     );
   }
 }
 
 Axis.defaultProps={
-  data:[],
   id:'Axis',
+  scale:[],
   type:'x',
-  width:500,
-  height:500,
-  pad:20,
 }

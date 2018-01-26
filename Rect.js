@@ -17,13 +17,13 @@ export default class Rect extends Component {
     let rects = [];
     this.state.data.forEach((el,i)=>{
       rects.push(
-        <rect id={this.state.id+'_'+i}
+        <rect id={this.state.id+'_'+i} key={this.state.id+'_'+i}
           x={el.x} y={el.y}
           width={el.width}
           height={el.height}
           fill={this.state.fill}
           stroke={this.state.stroke}
-          stroke-width={this.state.strokeWidth}
+          strokeWidth={this.state.strokeWidth}
          />
       );
     });

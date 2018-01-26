@@ -17,11 +17,11 @@ export default class Circle extends Component{
     let circles = [];
     this.state.data.forEach((el,i)=>{
       circles.push(
-        <circle id={this.state.id+'_'+i}
+        <circle id={this.state.id+'_'+i} key={this.state.id+'_'+i}
           r={el.r} cx={el.cx} cy={el.cy}
           fill={this.state.fill}
           stroke={this.state.stroke}
-          stroke-width={this.state.strokeWidth}
+          strokeWidth={this.state.strokeWidth}
          />
       );
     });
