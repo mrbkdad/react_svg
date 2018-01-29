@@ -15,6 +15,7 @@ below code shortly show way to use.(read Svg.js for detail information)
 
 when you need to use it, the chart data is just only necessary thing.
 first make or read data, make scale with Scale component(included) and use component.
+below image is the result from below code.
 
       <div>
         <svg
@@ -42,3 +43,4 @@ first make or read data, make scale with Scale component(included) and use compo
         </svg>
       </div>
 
+<img src="https://github.com/mrbkdad/react_svg/blob/master/react_line_chart.PNG">
