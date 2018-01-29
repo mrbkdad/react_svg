@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Line from './Line';
+import Text from './Text';
 
 export default class Axis extends Component {
   constructor(props){
@@ -13,26 +15,31 @@ export default class Axis extends Component {
   //Axis data {x,y,text}
   render() {
     let tick_data = this.state.scale.ticks(this.state.type);
-    let ticks = [];
+    let lines = [];
+    let texts = [];
     tick_data.forEach((tick,i)=>{
-      ticks.push(
-        <g id={'tick_'+i} key={'tick_'+i}>
-          <line id={'line_'+tick.tick} key={'line_'+tick.tick}
-            x1={tick.line.x1} y1={tick.line.y1}
-            x2={tick.line.x2} y2={tick.line.y2} stroke='black'/>
-          <text id={'text_'+tick.tick} key={'text_'+tick.tick}
-            x={tick.text.x} y={tick.text.y}
-            textAnchor={tick.text.textAnchor}
-            fontSize="10" forntFamily="sans-serif">
-            {tick.tick}
-          </text>
-        </g>
+      lines.push(
+          {
+            x1:tick.line.x1, y1:tick.line.y1,
+            x2:tick.line.x2, y2:tick.line.y2
+          }
+        );
+      texts.push(
+          {
+            x:tick.text.x, y:tick.text.y,
+            textAnchor:tick.text.textAnchor,
+            fontSize:"10", text:tick.tick
+          }
       );
     });
     //console.log(ticks);
     return (
       <g id={'axis_' + this.state.type}>
-        {ticks}
+        <Line id={'axis_'+this.state.type+'_line'}
+              data={lines} stroke='black' />
+        <Text id={'axis_'+this.state.type+'_text'}
+              data={texts} />
+          />
       </g>
     );
   }

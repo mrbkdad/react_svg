@@ -2,13 +2,59 @@ var d3 = require('d3');
 
 class Scale {
   scaleLinear:Object;
+  domainData:Array;
+  rangeData:Array;
   constructor(domain:Array=[1,100],range:Array=[0,500]){
-    let domainData = d3.extent(domain.map(d=>{return parseFloat(d);}));;
-    this.scaleLinear = d3.scaleLinear().domain(domainData).range(range);
+    this.domainData = d3.extent(domain.map(d=>{return parseFloat(d);}));
+    this.rangeData = range;
+    this.scaleLinear = d3.scaleLinear().domain(this.domainData).range(range);
   }
 
   scale(x){
     return this.scaleLinear(parseFloat(x));
+  }
+  domain(){
+    return this.domainData;
+  }
+  range(){
+    return this.rangeData;
+  }
+  // return line position
+  axis(type,xScale,yScale){
+    type = type || "bottom";
+    let xRange = xScale.range();
+    let yRange = yScale.range();
+    let position = [];
+    if(type==="bottom"){
+      position.push({
+        x1:xRange[0],
+        y1:yRange[0],
+        x2:xRange[1],
+        y2:yRange[0],
+      });
+    }else if(type==="top"){
+      position.push({
+        x1:xRange[0],
+        y1:yRange[1],
+        x2:xRange[1],
+        y2:yRange[1],
+      });
+    }else if(type==="left"){
+      position.push({
+        x1:xRange[0],
+        y1:yRange[0],
+        x2:xRange[0],
+        y2:yRange[1],
+      });
+    }else if(type==="right"){
+      position.push({
+        x1:xRange[1],
+        y1:yRange[0],
+        x2:xRange[1],
+        y2:yRange[1],
+      });
+    }
+    return position;
   }
 
   ticks(type){
